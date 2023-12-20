@@ -1,10 +1,8 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import '../css/setUpPage.css'
 
 export default function SetUpPage() {
-  const [inputValue, setInputValue] = useState('');
-  const [buttonClicked, setButtonClicked] = useState(false);
-  
+
   const [inputContainers, setInputContainers] = useState([{
     id: 1,
     value: ''

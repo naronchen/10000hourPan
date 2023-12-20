@@ -1,1 +1,2 @@
 - [x] Update auto_git
+- [x] SetUp Page animation & addInput Buttons
