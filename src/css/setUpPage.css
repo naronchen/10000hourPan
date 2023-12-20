@@ -1,0 +1,80 @@
+.setUp-container{
+    display: flex;
+    box-sizing: border-box;
+    padding: 10%;
+    height: 100%;
+}
+
+.input-container{
+    flex: 1;
+    border: white solid 2px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    box-sizing: border-box;
+    padding: 40px 10px;
+    text-align: center;
+    gap: 30px;
+
+    position: relative;
+
+    overflow-y: auto;
+}
+
+.input-board{
+    flex: 1;
+}
+
+.text-title{
+    font-size: 40px;
+}
+
+.add-button-container{
+    position: absolute;
+    right: 100px;
+    top: 50px;
+}
+
+.add-button{
+    padding: 5px 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.singleInput-container{
+    margin: 0px 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.border-input{
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 28px;
+    width: 100%;
+}
+
+.button-container{
+    display: flex;
+    align-items: center;
+}
+
+.input-button{
+    margin-left: 40px;
+    /* box-shadow: 0 4px #999; */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    height: 30px;
+    color: white;
+    width: 30px;
+}
+.input-button:hover {
+    background-color: #45a049; 
+}
+.input-button:active {
+    transform: translateY(4px);
+}
+  
