@@ -13,8 +13,14 @@ export default function SetUpPage() {
   const handleAddInputContainer = () => {
     setInputContainers([...inputContainers, {
       id: inputContainers.length + 1,
-      value: ''
+      value: '',
+      isSaved: false
     }])
+  }
+  const handleMinusInputContainer = () => {
+    if (inputContainers.length > 0) {
+      setInputContainers(inputContainers.slice(0, -1));
+    }
   }
 
   const handleInputChange = (id, val) => {
@@ -27,8 +33,18 @@ export default function SetUpPage() {
     setInputContainers(updatedContainers);
   }
 
-  const handleAddInput = () => {
-
+  const handleAddInput = (id) => {
+    const updatedContainers = inputContainers.map(container => {
+      if (container.id === id){
+        if (container.isSaved){
+          return {...container, isSaved: false}
+        } else {
+          return {...container, isSaved: true}
+        }
+      }
+      return container;
+      });
+    setInputContainers(updatedContainers);
   }
 
   return (
@@ -40,7 +56,7 @@ export default function SetUpPage() {
 
         <div className='add-button-container'>
           <button onClick={handleAddInputContainer} className='add-button'>+</button>
-          {/* <button onClick={handleMinus}>-</button> */}
+          <button onClick={handleMinusInputContainer} className='add-button'>-</button>
         </div>
 
         {
@@ -54,7 +70,7 @@ export default function SetUpPage() {
                 onChange={(e)=>handleInputChange(container.id, e.target.value)}
               />
               <div className='button-container'>
-                <button className='input-button' onClick={handleAddInput()}></button>
+                <button className={`input-button ${container.isSaved ? 'green-button' : ''}`} onClick={() => handleAddInput(container.id)}></button>
               </div>  
             </div>
           )
@@ -62,7 +78,15 @@ export default function SetUpPage() {
         }
       </div>
       <div className='input-board'>
-
+        {
+          inputContainers.map( container => (
+            container.isSaved && (
+              <div key={container.id} className='present'>
+                - {container.value}
+              </div>
+            ))
+          )
+        }
       </div>
     </div>
   )
