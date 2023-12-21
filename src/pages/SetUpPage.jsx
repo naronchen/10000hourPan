@@ -1,7 +1,9 @@
 import {useState} from 'react'
 import '../css/setUpPage.css'
+import {supabase} from '../client/supabaseClient'
 
 export default function SetUpPage() {
+  const myUserId = '69a2d2f7-e4ac-4e61-a95a-a8339508ab26'
 
   const [inputContainers, setInputContainers] = useState([{
     id: 1,
@@ -12,7 +14,8 @@ export default function SetUpPage() {
     setInputContainers([...inputContainers, {
       id: inputContainers.length + 1,
       value: '',
-      isSaved: false
+      goalType: '20h',
+      isSaved: false,
     }])
   }
   const handleMinusInputContainer = () => {
@@ -43,6 +46,48 @@ export default function SetUpPage() {
       return container;
       });
     setInputContainers(updatedContainers);
+  
+  }
+
+  const addGoal = async (userId, description, type) => {
+    const {data, error} = await supabase
+      .from('goals')
+      .insert([
+        { userId: userId, goalDescription: description, goalType: type}
+      ]);
+
+      if (error){
+        console.error("Error inserting data: ", error);
+        return null;
+      }
+
+      return data
+  }
+
+  const handleSubmit = async () => {
+    const savedItems = inputContainers.filter(container => container.isSaved);
+    const formattedItems = savedItems.map(({value, goalType, ...rest}) => {
+      return {
+        userId: myUserId,
+        goalDescription: value,
+        goalType: goalType,
+      }
+    })
+
+    try {
+      const { data, error } = await supabase
+        .from('goals')
+        .insert(formattedItems);
+  
+      if (error) {
+        console.error("Error inserting data: ", error);
+      } else {
+        // console.log("Inserted data: ", data);
+        // Handle successful insertion, e.g., updating state, showing confirmation, etc.
+      }
+    } catch (err) {
+      console.error("An error occurred: ", err);
+    }
   }
 
   return (
@@ -86,6 +131,7 @@ export default function SetUpPage() {
           )
         }
       </div>
+      <img src='./src/assets/forward.png' onClick={handleSubmit} className='forward-icon'></img> 
     </div>
   )
 }

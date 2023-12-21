@@ -20,5 +20,5 @@ html, body {
 
 @font-face {
   font-family: 'pixelFont';
-  src: url('./assets/fonts/pixelfont.TTF') format('truetype');
+  src: url('../assets/fonts/pixelfont.TTF') format('truetype');
 }

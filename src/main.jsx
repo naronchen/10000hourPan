@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
+import './css/index.css'
 
 import EntryPage from './pages/EntryPage.jsx';
 import SetUpPage from './pages/setUpPage.jsx';
