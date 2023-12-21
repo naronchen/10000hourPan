@@ -1,13 +1,21 @@
 import {useState} from 'react'
 import '../css/setUpPage.css'
 import {supabase} from '../client/supabaseClient'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SetUpPage() {
   const myUserId = '69a2d2f7-e4ac-4e61-a95a-a8339508ab26'
 
+  let navigate = useNavigate();
+  const gotoHomePage = () => {
+    navigate('/homePage');
+  };
+
   const [inputContainers, setInputContainers] = useState([{
     id: 1,
-    value: ''
+    value: '',
+    goalType: '20h',
   }])
 
   const handleAddInputContainer = () => {
@@ -49,21 +57,6 @@ export default function SetUpPage() {
   
   }
 
-  const addGoal = async (userId, description, type) => {
-    const {data, error} = await supabase
-      .from('goals')
-      .insert([
-        { userId: userId, goalDescription: description, goalType: type}
-      ]);
-
-      if (error){
-        console.error("Error inserting data: ", error);
-        return null;
-      }
-
-      return data
-  }
-
   const handleSubmit = async () => {
     const savedItems = inputContainers.filter(container => container.isSaved);
     const formattedItems = savedItems.map(({value, goalType, ...rest}) => {
@@ -78,7 +71,9 @@ export default function SetUpPage() {
       const { data, error } = await supabase
         .from('goals')
         .insert(formattedItems);
-  
+
+      gotoHomePage()
+
       if (error) {
         console.error("Error inserting data: ", error);
       } else {
@@ -88,6 +83,7 @@ export default function SetUpPage() {
     } catch (err) {
       console.error("An error occurred: ", err);
     }
+    
   }
 
   return (
