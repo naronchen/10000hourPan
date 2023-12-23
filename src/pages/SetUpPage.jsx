@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import '../css/setUpPage.css'
 import {supabase} from '../client/supabaseClient'
 import { useNavigate } from 'react-router-dom';
@@ -12,11 +12,48 @@ export default function SetUpPage() {
     navigate('/homePage');
   };
 
-  const [inputContainers, setInputContainers] = useState([{
-    id: 1,
-    value: '',
-    goalType: '20h',
-  }])
+  const [inputContainers, setInputContainers] = useState([])
+
+  // fetch from supabase all the existing goals
+  useEffect(() => {
+    async function fetchGoals() {
+      try {
+        const { data, error } = await supabase
+          .from('goals')
+          .select('*')
+          .eq('userId', myUserId)
+          .select('goalDetails');
+          
+        if (error) {
+          console.error("Error fetching data: ", error);
+        } else {
+          const formattedData = data[0]?.goalDetails?.map((goal, index) => {
+            return {
+              id: index,
+              value: goal.goalDescription,
+              goalType: goal.goalType,
+              isSaved: true,
+            }
+          })
+          
+          if (formattedData.length === 0) {
+            setInputContainers([{
+              id: 0,
+              value: '',
+              goalType: '20h',
+              isSaved: false,
+            }])
+          } else {
+            // console.log(formattedData)
+            setInputContainers(formattedData);
+          }
+        }
+      } catch (err) {
+        console.error("An error occurred: ", err);
+      }
+    }
+    fetchGoals();
+  }, []);
 
   const handleAddInputContainer = () => {
     setInputContainers([...inputContainers, {
@@ -26,6 +63,7 @@ export default function SetUpPage() {
       isSaved: false,
     }])
   }
+
   const handleMinusInputContainer = () => {
     if (inputContainers.length > 0) {
       setInputContainers(inputContainers.slice(0, -1));
@@ -54,36 +92,53 @@ export default function SetUpPage() {
       return container;
       });
     setInputContainers(updatedContainers);
-  
   }
 
+
+  // update all rows of this userId, delete the ones that are not in the inputContainers
   const handleSubmit = async () => {
     const savedItems = inputContainers.filter(container => container.isSaved);
-    const formattedItems = savedItems.map(({value, goalType, ...rest}) => {
-      return {
-        userId: myUserId,
-        goalDescription: value,
-        goalType: goalType,
-      }
-    })
 
     try {
+      // selete the json object called goalDetails
+      const { data: existingGoals, error: fetchError } = await supabase
+        .from('goals')
+        .select('*')
+        .eq('userId', myUserId)
+        .select('goalDetails');
+
+      if (fetchError) { throw fetchError }
+
+      const goalsToKeep = existingGoals.filter(goal =>
+        savedItems.some(item => item.value === goal.goalDescription));
+      console.log('goalsToKeep: ', goalsToKeep);
+      const goalsToInsert = savedItems.filter(item => 
+        !existingGoals.some(goal => goal.goalDescription === item.value));
+      const formattedGoalsToInsert = goalsToInsert.map(item => {
+        return {
+          goalDescription: item.value,
+          goalType: item.goalType,
+        }
+      })
+
+      // put goalsToKeep and goals to Insert together
+      const updatedGoals = goalsToKeep.concat(formattedGoalsToInsert);
+      // console.log('goalsToKeep: ', goalsToKeep);
+      
+      // update the goalDetails
       const { data, error } = await supabase
         .from('goals')
-        .insert(formattedItems);
+        .update({ goalDetails: updatedGoals })
+        .eq('userId', myUserId);
 
       gotoHomePage()
 
-      if (error) {
-        console.error("Error inserting data: ", error);
-      } else {
-        // console.log("Inserted data: ", data);
-        // Handle successful insertion, e.g., updating state, showing confirmation, etc.
-      }
+      // console.log("Inserted data: ", data);
+      // Handle successful insertion, e.g., updating state, showing confirmation, etc.
+
     } catch (err) {
       console.error("An error occurred: ", err);
     }
-    
   }
 
   return (

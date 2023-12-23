@@ -5,6 +5,10 @@ Major
 - [x] Send a create row to supabase db
 - [ ] Enable RLS
 - [x] fetch data from the home board
+- [x] made the goal page able to save and update
+- [ ] sidebar presentation
+- [ ] each goal's section
+- [ ] goal save make a loading screen
 
 
 Minor
