@@ -4,7 +4,7 @@ import './css/index.css'
 
 import EntryPage from './pages/EntryPage.jsx';
 import SetUpPage from './pages/setUpPage.jsx';
-import HomePage from './pages/HomePage.jsx';
+import HomePage from './pages/homePage/HomePage.jsx';
 import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from 'react-router-dom';
 
 

@@ -111,28 +111,26 @@ export default function SetUpPage() {
 
       const goalsToKeep = existingGoals.filter(goal =>
         savedItems.some(item => item.value === goal.goalDescription));
-      console.log('goalsToKeep: ', goalsToKeep);
       const goalsToInsert = savedItems.filter(item => 
         !existingGoals.some(goal => goal.goalDescription === item.value));
       const formattedGoalsToInsert = goalsToInsert.map(item => {
         return {
           goalDescription: item.value,
           goalType: item.goalType,
+          timeSpent: 0,
         }
       })
 
       // put goalsToKeep and goals to Insert together
       const updatedGoals = goalsToKeep.concat(formattedGoalsToInsert);
       // console.log('goalsToKeep: ', goalsToKeep);
-      
-      // update the goalDetails
       const { data, error } = await supabase
-        .from('goals')
-        .update({ goalDetails: updatedGoals })
-        .eq('userId', myUserId);
+      .from('goals')
+      .update({ goalDetails: updatedGoals })
+      .eq('userId', myUserId);
 
       gotoHomePage()
-
+      // update the goalDetails
       // console.log("Inserted data: ", data);
       // Handle successful insertion, e.g., updating state, showing confirmation, etc.
 

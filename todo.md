@@ -6,10 +6,11 @@ Major
 - [ ] Enable RLS
 - [x] fetch data from the home board
 - [x] made the goal page able to save and update
-- [ ] sidebar presentation
+- [x] sidebar presentation
 - [ ] each goal's section
 - [ ] goal save make a loading screen
 
 
 Minor
 - [ ] Word Limit on goals being input
+- [ ] Optimize for phone screen
