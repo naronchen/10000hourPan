@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import '../css/setUpPage.css'
 import {supabase} from '../client/supabaseClient'
 import { useNavigate } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
 
 
 export default function SetUpPage() {
@@ -40,7 +41,7 @@ export default function SetUpPage() {
             setInputContainers([{
               id: 0,
               value: '',
-              goalType: '20h',
+              goalType: 20,
               isSaved: false,
             }])
           } else {
@@ -59,7 +60,7 @@ export default function SetUpPage() {
     setInputContainers([...inputContainers, {
       id: inputContainers.length + 1,
       value: '',
-      goalType: '20h',
+      goalType: 20,
       isSaved: false,
     }])
   }
@@ -109,10 +110,10 @@ export default function SetUpPage() {
 
       if (fetchError) { throw fetchError }
 
-      const goalsToKeep = existingGoals.filter(goal =>
+      const goalsToKeep = existingGoals[0].goalDetails.filter(goal =>
         savedItems.some(item => item.value === goal.goalDescription));
       const goalsToInsert = savedItems.filter(item => 
-        !existingGoals.some(goal => goal.goalDescription === item.value));
+        !existingGoals[0].goalDetails.some(goal => goal.goalDescription === item.value));
       const formattedGoalsToInsert = goalsToInsert.map(item => {
         return {
           goalDescription: item.value,
@@ -140,6 +141,8 @@ export default function SetUpPage() {
   }
 
   return (
+    <>
+    <Sidebar />
     <div className='setUp-container'>
       <div className='input-container'>
         <div className='text-title'>
@@ -182,5 +185,6 @@ export default function SetUpPage() {
       </div>
       <img src='./src/assets/forward.png' onClick={handleSubmit} className='forward-icon'></img> 
     </div>
+    </>
   )
 }

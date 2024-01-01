@@ -4,6 +4,7 @@ Major
 - [x] Connect with supabase
 - [x] Send a create row to supabase db
 - [ ] Enable RLS
+- [x] Refactored Sidebar for better Encapsulation
 - [x] fetch data from the home board
 - [x] made the goal page able to save and update
 - [x] sidebar presentation

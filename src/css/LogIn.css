@@ -1,0 +1,50 @@
+.login-container-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 40px;
+    letter-spacing: 5px;
+}
+
+.login-container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+    width: 300px;
+}
+
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginForm input[type="email"], .loginForm input[type="password"], .login-button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 35px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 20px;
+}
+
+.login-button {
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.login-button:hover {
+    background-color: #45a049;
+}
+
+.signUp{
+    font-size: 30px;
+}
+

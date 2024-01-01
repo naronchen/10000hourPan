@@ -1,10 +1,19 @@
 
 import '../../css/homePage.css'
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-export default function Sidebar({ isOpen, toggle, showBorder }) {
+export default function Sidebar() {
+    const [isOpen, setIsOpen] = useState(true);
+
+    const toggle = () => {
+      setIsOpen(!isOpen);
+    }
+
     const sidebarStyle = {
       width: isOpen ? '300px' : '30px',
       '--pseudo-display': isOpen ? 'block' : 'none',
+      borderRight: isOpen ? '2px solid white' : 'none'
     };
 
     const toggleButtonStyle = {
@@ -14,6 +23,12 @@ export default function Sidebar({ isOpen, toggle, showBorder }) {
     const itemsStyle = {
         display: isOpen ? 'flex' : 'none',
     };
+
+    let navigate = useNavigate();
+    const gotoSetUpPage = () => {
+      navigate('/setUpPage');
+    };
+
     
     return (
       <div className="sidebar" style={sidebarStyle}>
@@ -23,6 +38,9 @@ export default function Sidebar({ isOpen, toggle, showBorder }) {
         <div className='sidebar-items' style={itemsStyle}>
             <div className='sidebar-item'>
                 面板
+            </div>
+            <div className='sidebar-item' onClick={gotoSetUpPage}>
+                目标设定
             </div>
         </div>
       </div>

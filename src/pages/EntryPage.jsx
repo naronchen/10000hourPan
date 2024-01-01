@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 export default function EntryPage() {
   let navigate = useNavigate();
 
-  const gotoSetUpPage = () => {
-    navigate('/setUpPage');
+  const gotoLogin = () => {
+    navigate('/login');
   };
 
   return (
@@ -13,7 +13,7 @@ export default function EntryPage() {
       <div className="title">一万小时计划</div>
 
       <div className="start-button">
-        <div onClick={gotoSetUpPage} className="start-text">
+        <div onClick={gotoLogin} className="start-text">
           开始
         </div>
       </div>
