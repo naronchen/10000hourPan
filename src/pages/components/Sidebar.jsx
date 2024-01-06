@@ -25,9 +25,13 @@ export default function Sidebar() {
     };
 
     let navigate = useNavigate();
-    const gotoSetUpPage = () => {
+    const gotoSetUpPage = (e) => {
+      e.stopPropagation();
       navigate('/setUpPage');
     };
+    const gotoHomePage = () => {
+      navigate('/homePage');
+    }
 
     
     return (
@@ -35,7 +39,7 @@ export default function Sidebar() {
         <button onClick={toggle} className='toggle-button' style={toggleButtonStyle}> 
         {isOpen ? '<' : '>'}
         </button>
-        <div className='sidebar-items' style={itemsStyle}>
+        <div className='sidebar-items' style={itemsStyle} onClick={gotoHomePage}>
             <div className='sidebar-item'>
                 面板
             </div>

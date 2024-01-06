@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { signUpUser } from './register_c/signUpUser';
 
 export default function SignUp() {
-    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
@@ -10,23 +11,26 @@ export default function SignUp() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
-        console.log('Email:', email, 'Password:', password);
+
+        signUpUser(userName, password, confirmPassword)
+            .then(() => {
+                console.log('Sign up successful');
+            })
+            .catch((error) => {
+                setError(error.message);
+            });
     };
 
   return (
     <div className="login-container-container">
         <div className="login-container">
-        <h2>Login</h2>
+        <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className="loginForm">
             <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+                type="username" 
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Username"
                 required 
             />
             <input 
@@ -34,7 +38,8 @@ export default function SignUp() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                required 
+                required
+                minLength="6"
             />
             <input 
                 type="password" 

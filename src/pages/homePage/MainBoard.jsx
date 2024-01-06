@@ -1,11 +1,8 @@
 import {useEffect, useState} from 'react';
 import {supabase} from '../../client/supabaseClient';
 
-export default function MainBoard({isOpen}) {
+export default function MainBoard() {
 
-    const mainBoardStyle = {
-        marginLeft: isOpen ? '330px' : '30px'
-    }
     const [goals, setGoals] = useState([])
     const [loadAnimation, setLoadAnimation] = useState(false);
 

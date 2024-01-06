@@ -141,50 +141,49 @@ export default function SetUpPage() {
   }
 
   return (
-    <>
-    <Sidebar />
-    <div className='setUp-container'>
-      <div className='input-container'>
-        <div className='text-title'>
-          输入目标
-        </div>
+    <div className='home-container'>
+      <Sidebar />
+      <div className='setUp-container'>
+        <div className='input-container'>
+          <div className='text-title'>
+            输入目标
+          </div>
 
-        <div className='add-button-container'>
-          <button onClick={handleAddInputContainer} className='add-button'>+</button>
-          <button onClick={handleMinusInputContainer} className='add-button'>-</button>
-        </div>
+          <div className='add-button-container'>
+            <button onClick={handleAddInputContainer} className='add-button'>+</button>
+            <button onClick={handleMinusInputContainer} className='add-button'>-</button>
+          </div>
 
-        {
-          inputContainers.map( container => (
-            <div key={container.id} className='singleInput-container'>
-              <input 
-                type='text' 
-                className='border-input' 
-                placeholder='你想要做什么？'
-                value={container.value}
-                onChange={(e)=>handleInputChange(container.id, e.target.value)}
-              />
-              <div className='button-container'>
-                <button className={`input-button ${container.isSaved ? 'green-button' : ''}`} onClick={() => handleAddInput(container.id)}></button>
-              </div>  
-            </div>
-          )
-          )
-        }
-      </div>
-      <div className='input-board'>
-        {
-          inputContainers.map( container => (
-            container.isSaved && (
-              <div key={container.id} className='present'>
-                - {container.value}
+          {
+            inputContainers.map( container => (
+              <div key={container.id} className='singleInput-container'>
+                <input 
+                  type='text' 
+                  className='border-input' 
+                  placeholder='你想要做什么？'
+                  value={container.value}
+                  onChange={(e)=>handleInputChange(container.id, e.target.value)}
+                />
+                <div className='button-container'>
+                  <button className={`input-button ${container.isSaved ? 'green-button' : ''}`} onClick={() => handleAddInput(container.id)}></button>
+                </div>  
               </div>
             ))
-          )
-        }
+          }
+        </div>
+        <div className='input-board'>
+          {
+            inputContainers.map( container => (
+              container.isSaved && (
+                <div key={container.id} className='present'>
+                  - {container.value}
+                </div>
+              ))
+            )
+          }
+        </div>
+        <img src='./src/assets/forward.png' onClick={handleSubmit} className='forward-icon'></img> 
       </div>
-      <img src='./src/assets/forward.png' onClick={handleSubmit} className='forward-icon'></img> 
     </div>
-    </>
   )
 }

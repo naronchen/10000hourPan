@@ -22,7 +22,7 @@
     align-items: center;
 }
 
-.loginForm input[type="email"], .loginForm input[type="password"], .login-button {
+.loginForm input[type="username"], .loginForm input[type="password"], .login-button {
     width: 100%;
     padding: 10px;
     margin-bottom: 35px;

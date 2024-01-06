@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { logInUser } from './register_c/logInUser';
 
-import '../css/LogIn.css';
+import '../../css/LogIn.css';
 
 export default function LogIn() {
-    const [email, setEmail] = useState('');
+    const navigate = useNavigate();
+
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Email:', email, 'Password:', password);
+        
+        logInUser(userName, password)
+            .then(() => {
+                console.log('Log in successful');
+                navigate('/homePage');
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+        
     };
 
   return (
@@ -18,10 +30,10 @@ export default function LogIn() {
         <h2>Login</h2>
         <form onSubmit={handleSubmit} className="loginForm">
             <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+                type="username" 
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Username"
                 required 
             />
             <input 
