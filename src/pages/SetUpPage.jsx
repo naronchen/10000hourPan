@@ -3,10 +3,11 @@ import '../css/setUpPage.css'
 import {supabase} from '../client/supabaseClient'
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
+import useAuth from './userSession/useAuth';
 
 
 export default function SetUpPage() {
-  const myUserId = '69a2d2f7-e4ac-4e61-a95a-a8339508ab26'
+  const { userId, loading: fetchingUserId } = useAuth();
 
   let navigate = useNavigate();
   const gotoHomePage = () => {
@@ -19,42 +20,39 @@ export default function SetUpPage() {
   useEffect(() => {
     async function fetchGoals() {
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('goals')
           .select('*')
-          .eq('userId', myUserId)
+          .eq('user_id', userId)
           .select('goalDetails');
-          
-        if (error) {
-          console.error("Error fetching data: ", error);
-        } else {
-          const formattedData = data[0]?.goalDetails?.map((goal, index) => {
-            return {
-              id: index,
-              value: goal.goalDescription,
-              goalType: goal.goalType,
-              isSaved: true,
-            }
-          })
-          
-          if (formattedData.length === 0) {
-            setInputContainers([{
-              id: 0,
-              value: '',
-              goalType: 20,
-              isSaved: false,
-            }])
-          } else {
-            // console.log(formattedData)
+
+        // Check if data is received and has the expected structure
+        if (data && data.length > 0 && Array.isArray(data[0].goalDetails)) {
+          const formattedData = data[0].goalDetails.map((goal, index) => ({
+            id: index,
+            value: goal.goalDescription,
+            goalType: goal.goalType,
+            isSaved: true,
+          }));
+
+          // Check if formattedData is not empty
+          if (formattedData.length > 0) {
             setInputContainers(formattedData);
+          } else {
+            setInputContainers([{ id: 0, value: '', goalType: 20, isSaved: false }]);
           }
+        } else {
+          // Handle the case when no data is found
+          setInputContainers([{ id: 0, value: '', goalType: 20, isSaved: false }]);
         }
       } catch (err) {
         console.error("An error occurred: ", err);
       }
     }
-    fetchGoals();
-  }, []);
+    if (!fetchingUserId && userId){
+      fetchGoals()
+    }
+  }, [userId, fetchingUserId]);
 
   const handleAddInputContainer = () => {
     setInputContainers([...inputContainers, {
@@ -105,7 +103,7 @@ export default function SetUpPage() {
       const { data: existingGoals, error: fetchError } = await supabase
         .from('goals')
         .select('*')
-        .eq('userId', myUserId)
+        .eq('user_id', userId)
         .select('goalDetails');
 
       if (fetchError) { throw fetchError }
@@ -128,7 +126,7 @@ export default function SetUpPage() {
       const { data, error } = await supabase
       .from('goals')
       .update({ goalDetails: updatedGoals })
-      .eq('userId', myUserId);
+      .eq('user_id', userId);
 
       gotoHomePage()
       // update the goalDetails

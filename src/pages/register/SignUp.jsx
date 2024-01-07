@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signUpUser } from './register_c/signUpUser';
 
 export default function SignUp() {
+    const navigate = useNavigate();
+
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -15,6 +16,7 @@ export default function SignUp() {
         signUpUser(userName, password, confirmPassword)
             .then(() => {
                 console.log('Sign up successful');
+                navigate('/setUpPage');
             })
             .catch((error) => {
                 setError(error.message);
