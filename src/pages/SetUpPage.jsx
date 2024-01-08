@@ -30,7 +30,7 @@ export default function SetUpPage() {
         if (data && data.length > 0 && Array.isArray(data[0].goalDetails)) {
           const formattedData = data[0].goalDetails.map((goal, index) => ({
             id: index,
-            value: goal.goalDescription,
+            goalDescription: goal.goalDescription,
             goalType: goal.goalType,
             isSaved: true,
           }));
@@ -39,11 +39,11 @@ export default function SetUpPage() {
           if (formattedData.length > 0) {
             setInputContainers(formattedData);
           } else {
-            setInputContainers([{ id: 0, value: '', goalType: 20, isSaved: false }]);
+            setInputContainers([{ id: 0, goalDescription: '', goalType: 20, isSaved: false }]);
           }
         } else {
           // Handle the case when no data is found
-          setInputContainers([{ id: 0, value: '', goalType: 20, isSaved: false }]);
+          setInputContainers([{ id: 0, goalDescription: '', goalType: 20, isSaved: false }]);
         }
       } catch (err) {
         console.error("An error occurred: ", err);
@@ -57,7 +57,7 @@ export default function SetUpPage() {
   const handleAddInputContainer = () => {
     setInputContainers([...inputContainers, {
       id: inputContainers.length + 1,
-      value: '',
+      goalDescription: '',
       goalType: 20,
       isSaved: false,
     }])
@@ -72,7 +72,7 @@ export default function SetUpPage() {
   const handleInputChange = (id, val) => {
     const updatedContainers = inputContainers.map(container => {
       if (container.id === id){
-        return {...container, value: val}
+        return {...container, goalDescription: val}
       }
       return container;
     });
@@ -89,7 +89,7 @@ export default function SetUpPage() {
         }
       }
       return container;
-      });
+    });
     setInputContainers(updatedContainers);
   }
 
@@ -97,41 +97,22 @@ export default function SetUpPage() {
   // update all rows of this userId, delete the ones that are not in the inputContainers
   const handleSubmit = async () => {
     const savedItems = inputContainers.filter(container => container.isSaved);
+    const formattedItems = savedItems.map(item => ({
+      goalDescription: item.goalDescription,
+      goalType: item.goalType,
+      timeSpent: 0,
+    }));
 
     try {
-      // selete the json object called goalDetails
-      const { data: existingGoals, error: fetchError } = await supabase
-        .from('goals')
-        .select('*')
-        .eq('user_id', userId)
-        .select('goalDetails');
 
-      if (fetchError) { throw fetchError }
-
-      const goalsToKeep = existingGoals[0].goalDetails.filter(goal =>
-        savedItems.some(item => item.value === goal.goalDescription));
-      const goalsToInsert = savedItems.filter(item => 
-        !existingGoals[0].goalDetails.some(goal => goal.goalDescription === item.value));
-      const formattedGoalsToInsert = goalsToInsert.map(item => {
-        return {
-          goalDescription: item.value,
-          goalType: item.goalType,
-          timeSpent: 0,
-        }
-      })
-
-      // put goalsToKeep and goals to Insert together
-      const updatedGoals = goalsToKeep.concat(formattedGoalsToInsert);
-      // console.log('goalsToKeep: ', goalsToKeep);
+      console.log(formattedItems)
       const { data, error } = await supabase
-      .from('goals')
-      .update({ goalDetails: updatedGoals })
-      .eq('user_id', userId);
+          .from('goals')
+          .upsert({ user_id: userId, goalDetails: formattedItems }, { onConflict: 'user_id' });
+      
+      if (error) throw error;
 
       gotoHomePage()
-      // update the goalDetails
-      // console.log("Inserted data: ", data);
-      // Handle successful insertion, e.g., updating state, showing confirmation, etc.
 
     } catch (err) {
       console.error("An error occurred: ", err);
@@ -159,7 +140,7 @@ export default function SetUpPage() {
                   type='text' 
                   className='border-input' 
                   placeholder='你想要做什么？'
-                  value={container.value}
+                  value={container.goalDescription}
                   onChange={(e)=>handleInputChange(container.id, e.target.value)}
                 />
                 <div className='button-container'>
@@ -168,19 +149,22 @@ export default function SetUpPage() {
               </div>
             ))
           }
+          <div>
+            <button className='save-button' onClick={handleSubmit}>保存</button>
+          </div>
         </div>
+        
         <div className='input-board'>
           {
             inputContainers.map( container => (
               container.isSaved && (
                 <div key={container.id} className='present'>
-                  - {container.value}
+                  - {container.goalDescription}
                 </div>
               ))
             )
           }
         </div>
-        <img src='./src/assets/forward.png' onClick={handleSubmit} className='forward-icon'></img> 
       </div>
     </div>
   )

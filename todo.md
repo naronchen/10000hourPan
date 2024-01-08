@@ -20,7 +20,8 @@ Problem: naron1's homepage is showing naron.chen's goals
 - [x] Enabled userSession, connected Signup & Login to backend
 - [ ] each goal's section
 - [ ] goal save make a loading screen
-- [ ] Change 目标设定 button to 继续 text
+- [x] Change 目标设定 button to 继续 text
+- [x] Optimized 目标设定
 
 
 Minor

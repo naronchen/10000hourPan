@@ -39,8 +39,8 @@ export default function Sidebar() {
         <button onClick={toggle} className='toggle-button' style={toggleButtonStyle}> 
         {isOpen ? '<' : '>'}
         </button>
-        <div className='sidebar-items' style={itemsStyle} onClick={gotoHomePage}>
-            <div className='sidebar-item'>
+        <div className='sidebar-items' style={itemsStyle} >
+            <div className='sidebar-item' onClick={gotoHomePage}>
                 面板
             </div>
             <div className='sidebar-item' onClick={gotoSetUpPage}>
