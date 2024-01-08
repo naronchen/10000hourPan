@@ -4,7 +4,9 @@
     transition: 1s;
     transition: width 1s;
     position: relative;
-    border-right: 2px solid white; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* .sidebar::after {
@@ -27,8 +29,8 @@
 }
 
 .sidebar-items{
-    height: 100%;
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -64,19 +66,20 @@
 
 .goals{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 50px; 
     padding: 20px; 
 }
 
 .goal {
     border: 2px solid #ccc; 
-    padding: 15px; 
+    padding: 20px; 
     border-radius: 8px; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 10px;
 }
 
 .goal > div {
@@ -108,6 +111,14 @@
     font-size: 18px;
     margin-top: 5px;
     text-align: right;
+}
+
+.enter-button{
+    border-radius: 5px;
+    border: 1px white solid;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 

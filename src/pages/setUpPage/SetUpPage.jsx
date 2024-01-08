@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react'
-import '../css/setUpPage.css'
-import {supabase} from '../client/supabaseClient'
+import '../../css/setUpPage.css'
+import {supabase} from '../../client/supabaseClient'
 import { useNavigate } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import useAuth from './userSession/useAuth';
+import Sidebar from '../components/Sidebar';
+import useAuth from '../userSession/useAuth';
 
 
 export default function SetUpPage() {

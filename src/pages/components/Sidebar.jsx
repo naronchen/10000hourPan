@@ -12,16 +12,17 @@ export default function Sidebar() {
 
     const sidebarStyle = {
       width: isOpen ? '300px' : '30px',
-      '--pseudo-display': isOpen ? 'block' : 'none',
-      borderRight: isOpen ? '2px solid white' : 'none'
+      '--pseudo-display': isOpen ? 'block' : 'none'
     };
 
     const toggleButtonStyle = {
-        right: isOpen? '0' : 'auto',
+        right: isOpen? '5px' : 'auto',
         left: isOpen? 'auto' : '0px',
     }
+    
     const itemsStyle = {
         display: isOpen ? 'flex' : 'none',
+        borderRight: isOpen ? '5px solid white' : 'none'
     };
 
     let navigate = useNavigate();

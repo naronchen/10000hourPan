@@ -3,7 +3,7 @@ import useAuth from './useAuth'; // Import your useAuth hook
 
 const ProtectedRoute = ({ children }) => {
 const { isAuthenticated, loading } = useAuth();
-console.log('isAuthenticated: ', isAuthenticated);
+// console.log('isAuthenticated: ', isAuthenticated);
 
   if (!isAuthenticated && !loading) {
     return <Navigate to="/login" />;

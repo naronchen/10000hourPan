@@ -1,7 +1,14 @@
 import {useEffect, useState} from 'react';
 import {supabase} from '../../client/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 export default function MainBoard() {
+
+    let navigate = useNavigate();
+
+    const gotoFocusPage = (goalDescription) => {
+      navigate(`/focus/${goalDescription}`);
+    }
 
     const [goals, setGoals] = useState([])
     const [loadAnimation, setLoadAnimation] = useState(false);
@@ -16,7 +23,7 @@ export default function MainBoard() {
       
           if (data[0]){
             setGoals(data[0].goalDetails)
-            console.log(data[0].goalDetails)
+            // console.log(data[0].goalDetails)
           }
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -46,6 +53,10 @@ export default function MainBoard() {
                           </div>
                           <div className='progress-percent'>
                             {progressPercentage}%
+                          </div>
+
+                          <div className='enter-button' onClick={() => {gotoFocusPage(goal.goalDescription)}}>
+                            进入状态
                           </div>
                       </div>
                   )
