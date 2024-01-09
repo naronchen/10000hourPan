@@ -4,13 +4,15 @@ import Modal from './Modal';
 import '../../css/CountDownPage.css';
 
 export default function CountDownPage() {
+
   const { goalDescription } = useParams();
-  const [timeLeft, setTimeLeft] = useState(25*60); // Set the initial countdown time in seconds
+  const [timeLeft, setTimeLeft] = useState(5); // Set the initial countdown time in seconds
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (timeLeft === 0) {
       setShowModal(true);
+
       return;
     }
 
@@ -36,7 +38,7 @@ export default function CountDownPage() {
 
   return (
     <div className="countdown-container">
-      <div className='countdown-title'>目标：{goalDescription}</div>
+      {/* <div className='countdown-title'> 目标：{goalDescription}</div> */}
       <div className="countdown-timer">
         {formatTime(timeLeft)}
       </div>

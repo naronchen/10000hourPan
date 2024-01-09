@@ -24,6 +24,7 @@ Problem: naron1's homepage is showing naron.chen's goals
 - [x] Optimized 目标设定
 - [ ] Load animation does not work in main
 - [x] Build the Focus Page
+- [x] Added small animation for modal in countDown
 
 
 Minor
