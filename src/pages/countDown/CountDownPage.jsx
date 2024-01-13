@@ -42,7 +42,7 @@ export default function CountDownPage() {
       <div className="countdown-timer">
         {formatTime(timeLeft)}
       </div>
-      {showModal && <Modal onClose={handleCloseModal} />}
+        {showModal && <Modal onClose={handleCloseModal} />}
     </div>
   );
 }

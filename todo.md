@@ -25,6 +25,8 @@ Problem: naron1's homepage is showing naron.chen's goals
 - [ ] Load animation does not work in main
 - [x] Build the Focus Page
 - [x] Added small animation for modal in countDown
+- [x] Added setting icon at upper right corner
+- [x] changed goal to one component, fixed overlay
 
 
 Minor

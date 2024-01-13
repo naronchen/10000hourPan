@@ -2,13 +2,11 @@ import {useEffect, useState} from 'react';
 import {supabase} from '../../client/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
+import settingsIcon from '../../assets/settings.png';
+import Settings from './Settings';
+import Goal from './Goal';
+
 export default function MainBoard() {
-
-    let navigate = useNavigate();
-
-    const gotoFocusPage = (goalDescription) => {
-      navigate(`/focus/${goalDescription}`);
-    }
 
     const [goals, setGoals] = useState([])
     const [loadAnimation, setLoadAnimation] = useState(false);
@@ -41,24 +39,9 @@ export default function MainBoard() {
         <div className='goals'>
             {
               goals.map((goal, index) => {
-                  const progressPercentage = ((goal.timeSpent / (goal.goalType * 60)) * 100).toFixed(2);
-                  const barWidth = loadAnimation ? `${progressPercentage}%` : '0%';
-                  return (
-                      <div className='goal' key={index}>
-                          <div className='goal-descript'>{goal.goalDescription}</div>
-                          <div className='progress-container'>
-                              <div  className='progress-bar' 
-                                    style={{ width: barWidth }}
-                              />
-                          </div>
-                          <div className='progress-percent'>
-                            {progressPercentage}%
-                          </div>
 
-                          <div className='enter-button' onClick={() => {gotoFocusPage(goal.goalDescription)}}>
-                            进入状态
-                          </div>
-                      </div>
+                  return (
+                      <Goal key={index} goal={goal}/>
                   )
               })
             }
