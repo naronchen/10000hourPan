@@ -3,16 +3,16 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-size: 40px;
+    font-size: 20px;
     letter-spacing: 5px;
 }
 
 .login-container {
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
     color: white;
-    width: 300px;
+    width: 200px;
 }
 
 .loginForm{
@@ -25,10 +25,10 @@
 .loginForm input[type="username"], .loginForm input[type="password"], .login-button {
     width: 100%;
     padding: 10px;
-    margin-bottom: 35px;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 20px;
+    font-size: 10px;
 }
 
 .login-button {
@@ -37,7 +37,7 @@
     cursor: pointer;
     border: none;
     margin-top: 10px;
-    width: 200px;
+    width: 100px;
 }
 
 .login-button:hover {
@@ -45,6 +45,6 @@
 }
 
 .signUp{
-    font-size: 30px;
+    font-size: 15px;
 }
 

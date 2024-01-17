@@ -12,6 +12,7 @@ Problem: naron1's homepage is showing naron.chen's goals
 
 - [ ] Duplicate username & warning?
 - [ ] Not showing invalid login credentials
+- [x] Optimized database and fetching process
 
 - [x] Refactored Sidebar for better Encapsulation
 - [x] fetch data from the home board
@@ -27,6 +28,7 @@ Problem: naron1's homepage is showing naron.chen's goals
 - [x] Added small animation for modal in countDown
 - [x] Added setting icon at upper right corner
 - [x] changed goal to one component, fixed overlay
+- [ ] the size of each component seemed to be too large, i want 67% occupied
 
 
 Minor

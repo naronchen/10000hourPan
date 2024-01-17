@@ -11,7 +11,7 @@ export default function Sidebar() {
     }
 
     const sidebarStyle = {
-      width: isOpen ? '300px' : '30px',
+      width: isOpen ? '200px' : '30px',
       '--pseudo-display': isOpen ? 'block' : 'none'
     };
 

@@ -23,15 +23,20 @@ export default function SetUpPage() {
         const { data } = await supabase
           .from('goals')
           .select('*')
-          .eq('user_id', userId)
           .select('goalDetails');
+        
+        const { data: userData } = await supabase
+          .from('goals')
+          .select('*')
 
-        // Check if data is received and has the expected structure
-        if (data && data.length > 0 && Array.isArray(data[0].goalDetails)) {
-          const formattedData = data[0].goalDetails.map((goal, index) => ({
+        // console.log('userData: ', userData);
+        if (userData && userData.length > 0) {
+          const formattedData = userData.map((goal, index) => ({
             id: index,
-            goalDescription: goal.goalDescription,
-            goalType: goal.goalType,
+            goalDescription: goal.title,
+            goalType: goal.type,
+            timeSpent: goal.timeSpent,
+            focusTime: goal.focusTime,
             isSaved: true,
           }));
 
@@ -41,9 +46,6 @@ export default function SetUpPage() {
           } else {
             setInputContainers([{ id: 0, goalDescription: '', goalType: 20, isSaved: false }]);
           }
-        } else {
-          // Handle the case when no data is found
-          setInputContainers([{ id: 0, goalDescription: '', goalType: 20, isSaved: false }]);
         }
       } catch (err) {
         console.error("An error occurred: ", err);
@@ -97,20 +99,24 @@ export default function SetUpPage() {
   // update all rows of this userId, delete the ones that are not in the inputContainers
   const handleSubmit = async () => {
     const savedItems = inputContainers.filter(container => container.isSaved);
-    const formattedItems = savedItems.map(item => ({
-      goalDescription: item.goalDescription,
-      goalType: item.goalType,
-      timeSpent: 0,
-    }));
 
     try {
-
-      console.log(formattedItems)
-      const { data, error } = await supabase
+      // console.log(formattedItems)
+      savedItems.forEach(async (item) => {
+        const { data, error } = await supabase
           .from('goals')
-          .upsert({ user_id: userId, goalDetails: formattedItems }, { onConflict: 'user_id' });
-      
-      if (error) throw error;
+          .upsert([
+            { 
+              user_id: userId,
+              title: item.goalDescription,
+              type: item.goalType,
+              timeSpent: item.timeSpent || 0,
+              focusTime: item.focusTime || 1500,
+            },
+          ], { onConflict: ['user_id', 'title', 'type'] });
+
+          if (error) throw error;
+      });
 
       gotoHomePage()
 

@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {supabase} from '../../client/supabaseClient';
+import { useEffect, useState } from 'react';
+import { supabase } from '../../client/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 import settingsIcon from '../../assets/settings.png';
@@ -19,8 +19,8 @@ export default function MainBoard() {
       
           if (error) throw error;
       
-          if (data[0]){
-            setGoals(data[0].goalDetails)
+          if (data){
+            setGoals(data)
             // console.log(data[0].goalDetails)
           }
         } catch (error) {
